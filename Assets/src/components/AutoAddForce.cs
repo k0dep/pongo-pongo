@@ -7,6 +7,6 @@ public class AutoAddForce : MonoBehaviour
 
     void Start()
     {
-        Rigidbody.velocity = new Vector2(Random.value, Random.value) * ForceCoefficient;
+        Rigidbody.velocity = new Vector2(Random.value * 2 - 1, Random.value * 2 - 1) * ForceCoefficient;
     }
 }

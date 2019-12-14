@@ -1,0 +1,9 @@
+{
+    "name": "com.drakoni.poster",
+    "version": "1.0.0",
+    "displayName": "Poster",
+    "author": "Stanislav Petrov @k0dep <sv.petrov@kodep.pro>",
+    "description": "Event bus",
+    "dependencies": {},
+    "unity": "2018.1"
+  }

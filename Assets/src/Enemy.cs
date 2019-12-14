@@ -1,15 +1,41 @@
-﻿using UnityEngine;
+﻿using System;
+using Messages;
+using Poster;
+using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public IMessageBinder Bus = MessageBusStatic.Bus;
+ 
     public Rigidbody2D Rigidbody;
-    public Transform Ball;
+
+    private Transform _ball;
 
     public float MaxVelocity = 1;
 
+    public void OnEnable()
+    {
+        Bus.Bind<BallSpawnedMessage>(BallSpawned);
+    }
+
+    public void OnDisable()
+    {
+        Bus.UnBind<BallSpawnedMessage>(BallSpawned);
+    }
+
+    private void BallSpawned(BallSpawnedMessage obj)
+    {
+        _ball = obj.BallObject.transform;
+    }
+
     void Update()
     {
-        if(transform.position.x < Ball.position.x)
+        if(_ball == null)
+        {
+            return;
+        }
+
+        if(transform.position.x < _ball.position.x)
         {
             Rigidbody.AddForce(Vector3.right * MaxVelocity * Time.deltaTime);
         }
