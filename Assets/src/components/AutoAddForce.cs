@@ -7,6 +7,22 @@ public class AutoAddForce : MonoBehaviour
 
     void Start()
     {
-        Rigidbody.velocity = new Vector2(Random.value * 2 - 1, Random.value * 2 - 1) * ForceCoefficient;
+        var corner = Vector2.one;
+
+        if(Random.Range(0, 2) == 1)
+        {
+            corner.x *= -1;
+        }
+
+        if(Random.Range(0, 2) == 1)
+        {
+            corner.y *= -1; 
+        }
+
+        var rotate = Random.Range(-1f, 1f) * 20f;
+
+        var rotation = Quaternion.Euler(0, 0, rotate) * corner;
+
+        Rigidbody.velocity = new Vector2(rotation.x, rotation.y) * ForceCoefficient;
     }
 }

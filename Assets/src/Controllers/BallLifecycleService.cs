@@ -11,6 +11,14 @@ namespace Controllers
 
         private GameObject _currentBall;
 
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Respawn();
+            }
+        }
+
         public void Start ()
         {
             Spawn();
