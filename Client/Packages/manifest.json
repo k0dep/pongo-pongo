@@ -6,6 +6,8 @@
     "com.unity.test-framework": "1.0.13",
     "com.unity.textmeshpro": "2.0.1",
     "com.unity.ugui": "1.0.0",
+    "pro.kodep.poster": "https://github.com/k0dep/pro.kodep.poster.git#1.0.0",
+    "pro.kodep.telepathy": "https://github.com/k0dep/Telepathy.git#1.0.0",
     "com.unity.modules.animation": "1.0.0",
     "com.unity.modules.audio": "1.0.0",
     "com.unity.modules.imageconversion": "1.0.0",
@@ -16,5 +18,15 @@
     "com.unity.modules.ui": "1.0.0",
     "com.unity.modules.uielements": "1.0.0",
     "com.unity.modules.unitywebrequest": "1.0.0"
+  },
+  "lock": {
+    "pro.kodep.telepathy": {
+      "hash": "6e12f30285281e15653934fa7bb04885ead25805",
+      "revision": "1.0.0"
+    },
+    "pro.kodep.poster": {
+      "hash": "5586aa47a78dca8f9b881ff58b4f037118b1ea42",
+      "revision": "1.0.0"
+    }
   }
 }
