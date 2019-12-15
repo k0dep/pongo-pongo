@@ -10,11 +10,16 @@ public class Player : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.D))
         {
-            Rigidbody.AddForce(Vector3.right * MaxVelocity * Time.deltaTime);
+            AddForce(1);
         }
         else if(Input.GetKey(KeyCode.A))
         {
-            Rigidbody.AddForce(Vector3.left * MaxVelocity * Time.deltaTime);
+            AddForce(-1);
         }
+    }
+
+    public void AddForce(float force)
+    {
+        Rigidbody.AddForce(Vector3.right * force * MaxVelocity * Time.deltaTime);
     }
 }
