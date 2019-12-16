@@ -8,6 +8,7 @@ namespace Controllers
     {
         public IMessageSender Bus = MessageBusStatic.Bus;
         public GameObject BallPrefab;
+        public Transform BallParent;
 
         private GameObject _currentBall;
 
@@ -26,7 +27,7 @@ namespace Controllers
 
         public void Spawn()
         {
-            var newBall = Instantiate(BallPrefab);
+            var newBall = Instantiate(BallPrefab, BallParent);
             Bus.Send(new Messages.BallSpawnedMessage
             {
                 BallObject = newBall

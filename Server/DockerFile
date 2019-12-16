@@ -1,0 +1,17 @@
+FROM ubuntu AS base
+WORKDIR /app
+EXPOSE 80
+
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+
+WORKDIR /src
+COPY ["pongo-pongo.server.csproj", "."]
+RUN dotnet restore "pongo-pongo.server.csproj"
+COPY . .
+RUN dotnet publish "pongo-pongo.server.csproj" -o /app -r linux-x64 -c Release /p:PublishSingleFile=true
+
+FROM base AS final
+WORKDIR /app
+COPY --from=build /app .
+ENV PP_PORT=80
+ENTRYPOINT ["./pongo-pongo.server"]

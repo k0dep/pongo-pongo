@@ -7,7 +7,7 @@ public class Ball : MonoBehaviour
     public IMessageSender Bus = MessageBusStatic.Bus;
 
     public float MinRadius = 1;
-    public float MaxRadius = 3;
+    public float MaxRadius = 2;
 
     public string TopBorderTag = "TopBorder";
     public string BottomBorderTag = "BottomBorder";
@@ -15,10 +15,11 @@ public class Ball : MonoBehaviour
     private void Start()
     {
         var transform = GetComponent<Transform>();
-        transform.localScale = Vector3.one * ((Random.value * (MaxRadius - MinRadius)) + MinRadius);
+        var multiplier = ((Random.value * (MaxRadius - MinRadius)) + MinRadius);
+        transform.localScale = transform.localScale * multiplier;
 
         var trail = GetComponent<TrailRenderer>();
-        trail.widthMultiplier *= transform.localScale.x;
+        trail.widthMultiplier *= multiplier;
     }
 
     private void OnCollisionEnter2D(Collision2D col)

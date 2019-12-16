@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Telepathy;
 
 namespace pongo_pongo
@@ -25,6 +26,7 @@ namespace pongo_pongo
             {
                 if (!server.GetNextMessage(out var msg))
                 {
+                    Thread.Sleep(2);
                     continue;
                 }
 

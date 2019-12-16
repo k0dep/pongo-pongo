@@ -37,4 +37,14 @@ namespace Messages
     public class ReplicateWorldStateMessage : WorldStateMessage
     {
     }
+
+    public class PartnetPlatformMessage
+    {
+        public float PartnerPosition { get; set; }
+        public float PartnerVelocity { get; set; }
+    }
+
+    public class ReplicatePartnetPlatformMessage : PartnetPlatformMessage
+    {
+    }
 }

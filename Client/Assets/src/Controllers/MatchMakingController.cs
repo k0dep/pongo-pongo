@@ -26,6 +26,7 @@ namespace Controllers
             Debug.Log("Room found!");
             
             State.IsPlayerHasAuthority = obj.IsAuthority;
+            State.IsNetworkMatch = true;
         }
 
         public void Start()

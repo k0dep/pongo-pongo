@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Telepathy;
 
 namespace pongo_pongo
@@ -10,13 +9,12 @@ namespace pongo_pongo
         enum Messages : byte
         {
             Queue = 0x1,
-            State = 0x2
+            Broadcast = 0x2
         }
 
         enum ClientMessages : byte
         {
-            PlayerFound = 0xF1,
-            State = 0xF2
+            PlayerFound = 0xF1
         }
 
         private readonly Server _server;
@@ -64,7 +62,7 @@ namespace pongo_pongo
                     QueueClient(connectionId);
                 break;
 
-                case Messages.State:
+                case Messages.Broadcast:
                     HandleState(connectionId, data[1..]);
                 break;
 
@@ -76,7 +74,7 @@ namespace pongo_pongo
         private void HandleState(int connectionId, byte[] v)
         {
             var partner = _partners[connectionId];
-            _server.Send(partner, new [] { (byte)ClientMessages.State }.Concat(v).ToArray());
+            _server.Send(partner, v);
         }
 
         private void QueueClient(int connectionId)

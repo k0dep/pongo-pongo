@@ -12,16 +12,17 @@ namespace Services
         enum ClientMessages : byte
         {
             PlayerFound = 0xF1,
-            State = 0xF2
+            WorldState = 0xF2,
+            Platform = 0xF3
         }
 
         enum ServerMessages : byte
         {
             Queue = 0x1,
-            State = 0x2
+            Broadcast = 0x2
         }
 
-        public string Host = "pongo-pongo.kodep.pro";
+        public string Host = "127.0.0.1";
         public int Port = 9876;
 
         public IMessageSender Sender = MessageBusStatic.Bus;
@@ -36,6 +37,8 @@ namespace Services
             _client = new Client();
             _client.Connect(Host, Port);
 
+            while(_client.Connecting);
+
             Application.runInBackground = true;
 
             Telepathy.Logger.Log = Debug.Log;
@@ -44,7 +47,7 @@ namespace Services
 
             Binder.Bind<StartSearchRoomMessage>(StartSearchRoom);
             Binder.Bind<ReplicateWorldStateMessage>(ReplicateWorld);
-
+            Binder.Bind<ReplicatePartnetPlatformMessage>(ReplicatePartnerPlatform);
         }
 
         void OnDestroy()
@@ -88,7 +91,7 @@ namespace Services
                     Sender.Send(new StartRoomSessionMessage(isAuthority));
                     break;
 
-                case ClientMessages.State:
+                case ClientMessages.WorldState:
                     using (var stream = new MemoryStream(data))
                     using (var reader = new BinaryReader(stream))
                     {
@@ -103,7 +106,21 @@ namespace Services
                         Sender.Send(stateMessage);
                     }
                     break;
-                
+
+                case ClientMessages.Platform:
+                    using (var stream = new MemoryStream(data))
+                    using (var reader = new BinaryReader(stream))
+                    {
+                        reader.ReadByte();
+                        var stateMessage = new PartnetPlatformMessage
+                        {
+                            PartnerPosition = reader.ReadSingle(),
+                            PartnerVelocity = reader.ReadSingle()
+                        };
+                        Sender.Send(stateMessage);
+                    }
+                    break;
+
                 default:
                     Debug.LogError($"Not known event {data[0]:X}");
                     break;
@@ -122,14 +139,28 @@ namespace Services
             using (var stream = new MemoryStream())
             using (var writer = new BinaryWriter(stream))
             {
-                writer.Write((byte)ServerMessages.State);
+                writer.Write((byte)ServerMessages.Broadcast);
+                writer.Write((byte)ClientMessages.WorldState);
                 writer.Write(obj.PartnerPosition);
                 writer.Write(obj.PartnetVelocity);
                 writer.Write(obj.BallPosition.x); writer.Write(obj.BallPosition.y);
                 writer.Write(obj.BallVelocity.x); writer.Write(obj.BallVelocity.y);
 
                 _client.Send(stream.ToArray());
-                Debug.Log("Replicate world");
+            }
+        }
+
+        private void ReplicatePartnerPlatform(ReplicatePartnetPlatformMessage obj)
+        {
+            using (var stream = new MemoryStream())
+            using (var writer = new BinaryWriter(stream))
+            {
+                writer.Write((byte)ServerMessages.Broadcast);
+                writer.Write((byte)ClientMessages.Platform);
+                writer.Write(obj.PartnerPosition);
+                writer.Write(obj.PartnerVelocity);
+
+                _client.Send(stream.ToArray());
             }
         }
     }
