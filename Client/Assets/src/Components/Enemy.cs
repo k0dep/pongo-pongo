@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     public IMessageBinder Bus = MessageBusStatic.Bus;
  
     public Rigidbody2D Rigidbody;
+    public bool AiEnaled = true;
 
     private Transform _ball;
 
@@ -30,7 +31,7 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if(_ball == null)
+        if(_ball == null || !AiEnaled)
         {
             return;
         }

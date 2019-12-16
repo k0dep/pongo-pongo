@@ -697,6 +697,7 @@ GameObject:
   - component: {fileID: 482218711}
   - component: {fileID: 482218710}
   - component: {fileID: 482218712}
+  - component: {fileID: 482218713}
   m_Layer: 0
   m_Name: Controllers
   m_TagString: Untagged
@@ -743,6 +744,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1fb5bfd1f7d4f748b75f5397ed7c191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player: {fileID: 461098687}
+--- !u!114 &482218713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482218709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ed0e87bdac831847bdb3431bc999bca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  State: {fileID: 11400000, guid: adb6f228f186df046b2af5c2487aa374, type: 2}
+  Enemy: {fileID: 2003957019}
   Player: {fileID: 461098687}
 --- !u!1 &586628180
 GameObject:
@@ -2361,6 +2377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Rigidbody: {fileID: 2003957020}
+  AiEnaled: 1
   MaxVelocity: 2000
 --- !u!50 &2003957020
 Rigidbody2D:
