@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -97,7 +98,7 @@ namespace Building
 
                 process.WaitForExit();
 
-                var data = output.Split('-');
+                var data = output.Trim().Split('-').Concat(new []{ "0" }).ToArray();
                 return $"{data[0]}.{data[1]}";
             }
             catch (Exception e)
