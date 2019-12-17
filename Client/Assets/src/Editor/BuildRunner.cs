@@ -27,7 +27,7 @@ namespace Building
             }
         }
 
-        [MenuItem("Build/Android APK")]
+        [MenuItem("Build/Android APK Debug")]
         public static void RunAndroidAPK()
         {
             SetupBuilding();
@@ -38,6 +38,24 @@ namespace Building
                 Path.GetFullPath(Path.Combine(Application.dataPath, "..",
                 $"{PlayerSettings.productName.Replace(" ", "_")}_{PlayerSettings.bundleVersion}.apk")), BuildTarget.Android,
                     BuildOptions.Development | BuildOptions.ConnectWithProfiler | BuildOptions.AllowDebugging);
+
+            if (report.summary.result != BuildResult.Succeeded)
+            {
+                throw new Exception("Build failed");
+            }
+        }
+
+        
+        [MenuItem("Build/Android APK Release")]
+        public static void RunAndroidAPKRelease()
+        {
+            SetupBuilding();
+
+            EditorUserBuildSettings.buildAppBundle = false;
+
+            var report = BuildPipeline.BuildPlayer(EditorBuildSettings.scenes,
+                Path.GetFullPath(Path.Combine(Application.dataPath, "..",
+                $"{PlayerSettings.productName.Replace(" ", "_")}_{PlayerSettings.bundleVersion}.apk")), BuildTarget.Android, BuildOptions.None);
 
             if (report.summary.result != BuildResult.Succeeded)
             {
