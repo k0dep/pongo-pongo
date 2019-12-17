@@ -6,6 +6,18 @@ public class Player : MonoBehaviour
 
     public float MaxVelocity = 1;
 
+    public GameState State;
+    public float HardModeWidth = 100;
+
+    public void Start()
+    {
+        if(State.HardMode)
+        {
+            var rect = GetComponent<RectTransform>();
+            rect.sizeDelta = new Vector2(HardModeWidth, rect.sizeDelta.y);
+        }
+    }
+
     void Update()
     {
         if(Input.GetKey(KeyCode.D))

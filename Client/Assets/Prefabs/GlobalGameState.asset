@@ -12,6 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21768826744c0f047a27510a41a81115, type: 3}
   m_Name: GlobalGameState
   m_EditorClassIdentifier: 
-  IsNetworkMatch: 0
-  IsPlayerHasAuthority: 1
-  SendRate: 0.05
+  _sendRate: 0.05

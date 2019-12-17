@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "bindingrx": "https://github.com/k0dep/bindingrx.git",
     "com.unity.ext.nunit": "1.0.0",
     "com.unity.ide.vscode": "1.1.2",
     "com.unity.package-manager-ui": "2.2.0",
@@ -8,6 +9,8 @@
     "com.unity.ugui": "1.0.0",
     "pro.kodep.poster": "https://github.com/k0dep/pro.kodep.poster.git#1.0.0",
     "pro.kodep.telepathy": "https://github.com/k0dep/Telepathy.git#1.0.0",
+    "type-inspector": "https://github.com/k0dep/type-inspector.git",
+    "unirx": "https://github.com/k0dep/unirx.git",
     "com.unity.modules.animation": "1.0.0",
     "com.unity.modules.audio": "1.0.0",
     "com.unity.modules.imageconversion": "1.0.0",
@@ -17,16 +20,29 @@
     "com.unity.modules.physics2d": "1.0.0",
     "com.unity.modules.ui": "1.0.0",
     "com.unity.modules.uielements": "1.0.0",
-    "com.unity.modules.unitywebrequest": "1.0.0"
+    "com.unity.modules.unitywebrequest": "1.0.0",
+    "com.unity.modules.unitywebrequestwww": "1.0.0"
   },
   "lock": {
-    "pro.kodep.telepathy": {
-      "hash": "6e12f30285281e15653934fa7bb04885ead25805",
-      "revision": "1.0.0"
+    "bindingrx": {
+      "hash": "b7d03c34d9e2b880dbc3c3a5f59edeef1ab0cf85",
+      "revision": "HEAD"
     },
     "pro.kodep.poster": {
       "hash": "5586aa47a78dca8f9b881ff58b4f037118b1ea42",
       "revision": "1.0.0"
+    },
+    "pro.kodep.telepathy": {
+      "hash": "6e12f30285281e15653934fa7bb04885ead25805",
+      "revision": "1.0.0"
+    },
+    "type-inspector": {
+      "hash": "81d46bc6735aa89f0e69ca985705b3b7fe078630",
+      "revision": "HEAD"
+    },
+    "unirx": {
+      "hash": "8070b02eb30e864d7dccd02d9fe8094f64f3d662",
+      "revision": "HEAD"
     }
   }
 }

@@ -2,35 +2,35 @@
 using Poster;
 using UnityEngine;
 
-public class Ball : MonoBehaviour
+namespace Components
 {
-    public IMessageSender Bus = MessageBusStatic.Bus;
-
-    public float MinRadius = 1;
-    public float MaxRadius = 2;
-
-    public string TopBorderTag = "TopBorder";
-    public string BottomBorderTag = "BottomBorder";
-
-    private void Start()
+    public class Ball : MonoBehaviour
     {
-        var transform = GetComponent<Transform>();
-        var multiplier = ((Random.value * (MaxRadius - MinRadius)) + MinRadius);
-        transform.localScale = transform.localScale * multiplier;
+        public IMessageSender Bus = MessageBusStatic.Bus;
 
-        var trail = GetComponent<TrailRenderer>();
-        trail.widthMultiplier *= multiplier;
-    }
+        public float MinRadius = 1;
+        public float MaxRadius = 2;
 
-    private void OnCollisionEnter2D(Collision2D col)
-    {
-        if (col.gameObject.CompareTag(TopBorderTag))
+        public string TopBorderTag = "TopBorder";
+        public string BottomBorderTag = "BottomBorder";
+
+        private void Start()
         {
-            Bus.Send(new CollideTopBorderMessage());
+            var transform = GetComponent<Transform>();
+            var multiplier = ((Random.value * (MaxRadius - MinRadius)) + MinRadius);
+            transform.localScale = transform.localScale * multiplier;
         }
-        else if (col.gameObject.CompareTag(BottomBorderTag))
+
+        private void OnCollisionEnter2D(Collision2D col)
         {
-            Bus.Send(new CollideBottomBorderMessage());
+            if (col.gameObject.CompareTag(TopBorderTag))
+            {
+                Bus.Send(new CollideTopBorderMessage());
+            }
+            else if (col.gameObject.CompareTag(BottomBorderTag))
+            {
+                Bus.Send(new CollideBottomBorderMessage());
+            }
         }
     }
 }

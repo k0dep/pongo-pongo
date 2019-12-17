@@ -1,6 +1,7 @@
 ﻿using Messages;
 using Poster;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Controllers
 {
@@ -10,6 +11,8 @@ namespace Controllers
         public IMessageSender Sender = MessageBusStatic.Bus;
 
         public GameState State;
+
+        public UnityEvent OnMatchMaked;
 
         public void OnEnable()
         {
@@ -27,6 +30,8 @@ namespace Controllers
             
             State.IsPlayerHasAuthority = obj.IsAuthority;
             State.IsNetworkMatch = true;
+
+            OnMatchMaked.Invoke();
         }
 
         public void Start()

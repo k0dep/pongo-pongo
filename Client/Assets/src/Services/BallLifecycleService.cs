@@ -1,5 +1,4 @@
-﻿using System;
-using Poster;
+﻿using Poster;
 using UnityEngine;
 
 namespace Controllers
