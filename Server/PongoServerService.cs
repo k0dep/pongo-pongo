@@ -1,24 +1,15 @@
 using System;
 using System.Collections.Generic;
+using SimpleJSON;
 using Telepathy;
 
 namespace pongo_pongo
 {
     public class PongoServerService
     {
-        enum Messages : byte
-        {
-            Queue = 0x1,
-            Broadcast = 0x2
-        }
-
-        enum ClientMessages : byte
-        {
-            PlayerFound = 0xF1
-        }
-
         private readonly Server _server;
 
+        // таблички соответстсия игрока к комнате или другому игроку
         private readonly Dictionary<int, int> _connectionToRoom;
         private readonly Dictionary<int, (int, int)> _roomToConnections;
         private readonly Dictionary<int, int> _partners;
@@ -53,17 +44,18 @@ namespace pongo_pongo
             }
         }
 
-        public void OnDataRecv(int connectionId, byte[] data)
+        // Метод обработки сообщения
+        public void OnDataRecv(int connectionId, JSONNode data)
         {
 
-            switch((Messages)data[0])
+            switch(data["type"].ToString()) // обрабатываем сообщение по полю с типом сообщения
             {
-                case Messages.Queue:
+                case "queue":
                     QueueClient(connectionId);
                 break;
 
-                case Messages.Broadcast:
-                    HandleState(connectionId, data[1..]);
+                case "broadcast":
+                    HandleState(connectionId, data);
                 break;
 
                 default:
@@ -71,26 +63,39 @@ namespace pongo_pongo
             }
         }
 
-        private void HandleState(int connectionId, byte[] v)
+        // обработка сообщения по ретнарсляции сообщения от клиента к клиенту
+        private void HandleState(int connectionId, JSONNode data)
         {
             var partner = _partners[connectionId];
-            _server.Send(partner, v);
+            _server.Send(partner, data.GetBytes());
         }
 
+        // обработка сообщения установки в очередь
         private void QueueClient(int connectionId)
         {
+            // если в очереди никого нету или в очереди тот же игрок
             if (_queuedClient == int.MinValue || _queuedClient == connectionId)
             {
+                // то игнорируем этот сценарий
                 _queuedClient = connectionId;
                 Console.WriteLine($"Client with connection id {connectionId} is queued for room");
                 return;
             }
 
-            _server.Send(connectionId, new byte[] { (byte)ClientMessages.PlayerFound, 0 });
-            _server.Send(_queuedClient, new byte[] { (byte)ClientMessages.PlayerFound, 0xFF });
+            // отправляем игрокам в одной комнате сообщенние о присоединении к комнате
+            _server.Send(connectionId, new {
+                type = "player_found",
+                isAuthority = false // у первого нет авторитета
+            }.JsonBytes());
+
+            _server.Send(_queuedClient, new {
+                type = "player_found",
+                isAuthority = true // у второго авторитет есть
+            }.JsonBytes());
 
             ++_lastRoomId;
 
+            // устанавливаем все связи и таблички для быстрого поиска игроков в комнатах
             _roomToConnections[_lastRoomId] = (connectionId, _queuedClient);
             _connectionToRoom[_queuedClient] = _lastRoomId;
             _connectionToRoom[connectionId] = _lastRoomId;
@@ -99,6 +104,7 @@ namespace pongo_pongo
 
             Console.WriteLine($"Create room {_lastRoomId} with clients {_queuedClient} and {connectionId}");
 
+            // очищаем очередь
             _queuedClient = int.MinValue;
         }
     }
